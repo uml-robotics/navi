@@ -1,0 +1,16 @@
+#!/usr/bin/python2.7
+import subprocess as sp
+import time
+import sys
+import os
+import getpass
+import serial
+
+user = getpass.getuser()
+#print 'sourcing /home/'+user+'/.bash_nasa_val'
+
+with serial.Serial("/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AI03RLDW-if00-port0", 9600) as arduino, open('/dev/null', 'w') as devnull:
+	while True:
+		sp.Popen(["PYTHONPATH=${PYTHONPATH}:/home/odin/val_indigo/install/lib/python2.7/dist-packages:/opt/nasa/indigo/lib/python2.7/dist-packages:/opt/ros/indigo/lib/python2.7/dist-packages /home/odin/val_indigo/src/shared_memory_transport/scripts/smttopic echo /power/pdbmti/HV_State"], shell=True, stdout=arduino.fd, stderr=devnull).wait()
+		#sp.Popen(["tail -F /home/odin/test"], shell=True, stdout=arduino.fd, stderr=devnull).wait()
+		time.sleep(3)
