@@ -35,7 +35,13 @@ void loop() {
     buffer[i] = '\0';
     if(isDigit(buffer[0])) { // atoi can only work if first char is number error returns 0 which is useless
       int val = atoi(buffer);
-      if(val < 10) {
+      // state 0 just turned it on
+      // state 1 controller started/ logic power on
+      // state 2-7 capacitor charging
+      // state 8 power on
+      // state 10 estopped
+      // state 11 motor power off
+      if(val > 1 &&  val < 10) {
         if(state != STATE_ON) {
           state = STATE_TURNING_ON;
           buzzer_cnt = 474;
