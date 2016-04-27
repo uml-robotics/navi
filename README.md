@@ -7,8 +7,7 @@ during the transition from high voltage being off and high voltage being on.  Na
  * Plug Navi's usb serial port into one of the usb ports on the back of your computer.
  * Plug a 12V 1A barrel connector power supply to the plug on Navi to power the light.
  * ```sudo git clone https://github.com/uml-robotics/navi.git /usr/local/bin/navi```
- *  If the arduino changed edit the navi file and change the line ```serial.Serial("/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AI03RLDW-if00-port0", 9600)```
- to whatever the current device id is.   Also change the line ```SERIAL_DEVICE=/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AI03RLDW-if00-port0``` in the navi.init.d file
+ * If the arduino changed edit the ```navi.init.d``` file and change the line ```SERIAL_DEVICE=/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AI03RLDW-if00-port0``` to match your serial device
  * If you username is not odin change the line ```DAEMON_USER=odin``` in navi.init.d
  * Add ```/usr/local/bin/navi/scripts``` to your path in your bashrc
  * ```sudo cp /usr/local/bin/navi/navi.init.d /etc/init.d/navi```
