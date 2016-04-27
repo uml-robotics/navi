@@ -3,14 +3,28 @@ import subprocess as sp
 import time
 import sys
 import os
-import getpass
 import serial
+import argparse
 
-user = getpass.getuser()
-#print 'sourcing /home/'+user+'/.bash_nasa_val'
+args = argparse.ArgumentParser(description='Navi the safety light service')
+args.add_argument('--user', default='root')
+args.add_argument('--serial_dev', default='/dev/ttyUSB0')
+args = args.parse_args()
+print args
 
-with serial.Serial("/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AI03RLDW-if00-port0", 9600) as arduino, open('/dev/null', 'w') as devnull:
+# assumes user has working val_indigo workspace
+user = args.user
+home = '/root' if user == 'root' else '/home/'+user+''
+arduino_path = args.serial_dev
+
+echo_cmd = "PYTHONPATH=${PYTHONPATH}:" + \
+		home+"/val_indigo/install/lib/python2.7/dist-packages:" + \
+		"/opt/nasa/indigo/lib/python2.7/dist-packages:" + \
+		"/opt/ros/indigo/lib/python2.7/dist-packages " + \
+		home+"/val_indigo/src/shared_memory_transport/scripts/smttopic echo /power/pdbmti/HV_State"
+
+with serial.Serial(arduino_path, 9600) as arduino, open('/dev/null', 'w') as devnull:
 	while True:
-		sp.Popen(["PYTHONPATH=${PYTHONPATH}:/home/odin/val_indigo/install/lib/python2.7/dist-packages:/opt/nasa/indigo/lib/python2.7/dist-packages:/opt/ros/indigo/lib/python2.7/dist-packages /home/odin/val_indigo/src/shared_memory_transport/scripts/smttopic echo /power/pdbmti/HV_State"], shell=True, stdout=arduino.fd, stderr=devnull).wait()
-		#sp.Popen(["tail -F /home/odin/test"], shell=True, stdout=arduino.fd, stderr=devnull).wait()
+		sp.Popen([echo_cmd], shell=True, stdout=arduino.fd, stderr=devnull).wait()
+		#sp.Popen(["tail -F /home/"+user+"/test"], shell=True, stdout=arduino.fd, stderr=devnull).wait() # for debugging only
 		time.sleep(3)

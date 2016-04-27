@@ -7,7 +7,7 @@ with serial.Serial('/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AI03RLDW-if00-por
     print 'need to specify on or off'
     exit(1)
   if sys.argv[1] == 'on':
-    ser.write('1\n')
+    ser.write('4\n')
     print 'turning navi on'
   elif sys.argv[1] == 'off':
     ser.write('11\n')

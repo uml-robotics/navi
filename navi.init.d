@@ -18,11 +18,11 @@ DAEMON_NAME=navi
 # serial device that maps to the arduino
 SERIAL_DEVICE=/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AI03RLDW-if00-port0
 
-# Add any command line options for your daemon here
-DAEMON_OPTS=""
-
 # This next line determines what user the script runs as.
 DAEMON_USER=odin
+
+# Add any command line options for your daemon here
+DAEMON_OPTS="--user $DAEMON_USER --serial_dev $SERIAL_DEVICE"
 
 # The process ID of the script when it runs is stored here:
 PIDFILE=/var/run/$DAEMON_NAME.pid
